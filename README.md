@@ -11,7 +11,7 @@ Un taller de coches cooperativo para 1 a 4 jugadores: arreglas (o «arreglas») 
 irm https://raw.githubusercontent.com/DiegomgWilokia/grease-me-up/main/install.ps1 | iex
 ```
 
-Descarga la última versión (unos 75 MB), la instala en tu usuario (no hace falta ser administrador) y deja el acceso directo **GREASE ME UP!** en el Escritorio. Para actualizar, vuelve a pegar la misma línea. Las partidas guardadas no se tocan.
+Descarga la última versión (unos 190 MB), la instala en tu usuario (no hace falta ser administrador) y deja el acceso directo **GREASE ME UP!** en el Escritorio. Para actualizar, vuelve a pegar la misma línea. Las partidas guardadas no se tocan.
 
 Si prefieres hacerlo a mano: descarga `GreaseMeUp-win64.zip` de [la última versión](https://github.com/DiegomgWilokia/grease-me-up/releases/latest), descomprímelo y abre `GreaseMeUp.exe`.
 

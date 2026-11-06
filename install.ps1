@@ -24,7 +24,7 @@
     if ($running) { Write-Host 'Cerrando el juego abierto...'; $running | Stop-Process -Force; Start-Sleep -Seconds 1 }
 
     try {
-        Write-Host 'Descargando la ultima version (unos 75 MB)...'
+        Write-Host 'Descargando la ultima version (unos 190 MB)...'
         Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing
     }
     catch { Write-Host "No se pudo descargar: $($_.Exception.Message)" -ForegroundColor Red; return }
