@@ -19,10 +19,6 @@
     Write-Host ''
     if (-not [Environment]::Is64BitOperatingSystem) { Write-Host 'Hace falta Windows de 64 bits.' -ForegroundColor Red; return }
 
-    # Updating while the game is open would fail on locked files.
-    $running = Get-Process -Name GreaseMeUp -ErrorAction SilentlyContinue
-    if ($running) { Write-Host 'Cerrando el juego abierto...'; $running | Stop-Process -Force; Start-Sleep -Seconds 1 }
-
     try {
         Write-Host 'Descargando la ultima version (unos 190 MB)...'
         Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing
@@ -36,9 +32,31 @@
     Remove-Item $zip -Force
     $exeNew = Join-Path $staging 'GreaseMeUp.exe'
     if (-not (Test-Path $exeNew)) { Write-Host 'El paquete descargado no trae GreaseMeUp.exe. No se ha cambiado nada.' -ForegroundColor Red; Remove-Item $staging -Recurse -Force; return }
-    # Swap only once the new copy is complete: a failed download never leaves you without a game.
-    if (Test-Path $dest) { Remove-Item $dest -Recurse -Force }
+    # Close the game only now (it may have been reopened during the download) and wait until it has really exited:
+    # its files stay locked for a moment after it is killed.
+    $running = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.Name -eq 'GreaseMeUp' -or ($_.Path -and $_.Path.StartsWith("$dest\", [StringComparison]::OrdinalIgnoreCase)) })
+    if ($running.Count -gt 0) {
+        Write-Host 'Cerrando el juego abierto...'
+        $running | Stop-Process -Force -ErrorAction SilentlyContinue
+        $running | Wait-Process -Timeout 20 -ErrorAction SilentlyContinue
+    }
+    # Swap only once the new copy is complete. The old copy is moved aside first (a locked file makes the move fail
+    # as a whole), so a failed update never leaves you without a game.
+    $old = "$dest.old"
+    if (Test-Path $old) { Remove-Item $old -Recurse -Force -ErrorAction SilentlyContinue }
+    if (Test-Path $dest) {
+        $moved = $false
+        for ($i = 0; $i -lt 20 -and -not $moved; $i++) {
+            try { Rename-Item $dest $old -ErrorAction Stop; $moved = $true } catch { Start-Sleep -Milliseconds 500 }
+        }
+        if (-not $moved) {
+            Write-Host 'El juego sigue abierto. Cierralo y vuelve a pegar el comando. No se ha cambiado nada.' -ForegroundColor Red
+            Remove-Item $staging -Recurse -Force
+            return
+        }
+    }
     Move-Item $staging $dest
+    Remove-Item $old -Recurse -Force -ErrorAction SilentlyContinue
     Get-ChildItem $dest -Recurse -File | Unblock-File
     $exe = Join-Path $dest 'GreaseMeUp.exe'
 
