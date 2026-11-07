@@ -17,7 +17,7 @@ Si prefieres hacerlo a mano: descarga `GreaseMeUp-win64.zip` de [la última vers
 
 ## Jugar con amigos
 
-Uno pulsa **ALOJAR PARTIDA** y los demás **UNIRSE A UN TALLER** con la IP del anfitrión. Si no estáis en la misma red, instalad todos [Radmin VPN](https://www.radmin-vpn.com/) (gratis), uníos a la misma red de Radmin y usad la IP de Radmin del anfitrión (empieza por `26.`).
+Uno pulsa **ALOJAR PARTIDA** y los demás **UNIRSE A UN TALLER** con la IP del anfitrión, que sale abajo a la izquierda de su menú. Todos tenéis que tener la misma versión del juego, que sale en el mismo sitio (por ejemplo `v0.11.1 (b24ea4)`). Para tenerla, pegad todos la línea de instalación; si no coincide, el juego os lo dice al uniros. Si no estáis en la misma red, instalad todos [Radmin VPN](https://www.radmin-vpn.com/) (gratis), uníos a la misma red de Radmin y usad la IP de Radmin del anfitrión (empieza por `26.`).
 
 ## Desinstalar
 
